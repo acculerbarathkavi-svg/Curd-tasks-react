@@ -87,7 +87,7 @@ const home = () => {
         required
         />
        </div>
-       <div className="field">
+       {/* <div className="field">
         <label>Image</label>
         <input type="file" name='image' 
         placeholder='User image' 
@@ -95,7 +95,7 @@ const home = () => {
         onChange={handleChange}
         required
         />
-       </div>
+       </div> */}
 
        <button type='submit'>Submit</button>
          </form>
