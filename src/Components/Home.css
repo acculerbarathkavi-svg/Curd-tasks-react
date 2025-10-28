@@ -1,0 +1,27 @@
+h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.field{
+    margin-bottom: 15px;
+    text-align: center;
+}
+.field input{
+    width: 300px;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    padding-left: 10px;
+    margin-left: 15px;
+}
+button{
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(0, 204, 255);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 250px;
+}
