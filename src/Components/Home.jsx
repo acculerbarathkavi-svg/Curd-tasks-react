@@ -119,7 +119,7 @@ const Home = () => {
             <ul style={{ listStyleType: "none", padding: 0 }}>
               {userList.map((user, index) => (
                 <li key={index} style={{
-                  background: "#f8f9fa",
+                  background: "#e3e5e7ff",
                   margin: "10px 0",
                   padding: "15px",
                   borderRadius: "10px",
