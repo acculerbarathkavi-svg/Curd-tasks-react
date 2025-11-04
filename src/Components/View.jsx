@@ -10,11 +10,12 @@ import { Card, Container } from 'react-bootstrap';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert2';
+import { useState } from 'react';
 
 export default function UserTable() {
-  const [userList, setUserList] = React.useState([]);
-  const [editIndex, setEditIndex] = React.useState(null);
-  const [editUser, setEditUser] = React.useState({
+  const [userList, setUserList] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editUser, setEditUser] = useState({
     username: '',
     email: '',
     age: '',
@@ -22,7 +23,7 @@ export default function UserTable() {
   });
   const [open, setOpen] = React.useState(false);
 
-  // 🔹 Load user details from localStorage when component mounts
+  //  Load user details from localStorage when component mounts
   React.useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('UserDetailsList')) || [];
     setUserList(storedUsers);
@@ -133,7 +134,7 @@ export default function UserTable() {
 
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <Link to="/">
-            <button className="btn btn-primary">Back to Form</button>
+            <button className="btn btn-success">Back to Form</button>
           </Link>
         </div>
       </Card>
