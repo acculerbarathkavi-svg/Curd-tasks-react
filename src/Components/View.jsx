@@ -23,13 +23,12 @@ export default function UserTable() {
   });
   const [open, setOpen] = React.useState(false);
 
-  //  Load user details from localStorage when component mounts
+  // Load from localStorage
   React.useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('UserDetailsList')) || [];
     setUserList(storedUsers);
   }, []);
 
-  // 🗑️ Delete user
   const handleDelete = (index) => {
     swal
       .fire({
@@ -37,7 +36,7 @@ export default function UserTable() {
         text: "You want to delete this user?",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
       })
       .then((result) => {
@@ -50,76 +49,68 @@ export default function UserTable() {
       });
   };
 
-  // ✏️ Open edit dialog
   const handleEdit = (index) => {
     setEditIndex(index);
     setEditUser(userList[index]);
     setOpen(true);
   };
 
-  // 🧾 Handle input changes in edit dialog
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 💾 Save edited user
   const handleSaveEdit = () => {
     const updatedList = [...userList];
     updatedList[editIndex] = editUser;
     setUserList(updatedList);
     localStorage.setItem('UserDetailsList', JSON.stringify(updatedList));
+    swal.fire('Updated!', 'User details updated.', 'success');
     setOpen(false);
-    swal.fire('Updated!', 'User details have been updated.', 'success');
   };
 
   return (
-    <Container>
-      <Card style={{ marginTop: "50px", padding: "20px" }}>
-        <h2 style={{ textAlign: "center" }}>Stored User Details</h2>
+    <Container style={{ maxWidth: "1000px" }}>
+      <Card style={{ marginTop: "40px", padding: "25px" }}>
+        <h2 style={{ textAlign: "center", fontWeight: "600" }}>
+          Stored User Details
+        </h2>
 
         {userList.length === 0 ? (
-          <p style={{ textAlign: "center", marginTop: "20px" }}>
-            No user data found.
-          </p>
+          <p style={{ textAlign: "center", marginTop: "20px" }}>No user data found.</p>
         ) : (
-          <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-            <Table sx={{ minWidth: 650 }} aria-label="user table">
+          <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+            <Table aria-label="user table" sx={{ minWidth: 400, overflowX: "auto" }}>
               <TableHead>
                 <TableRow>
                   <TableCell><strong>Username</strong></TableCell>
-                  <TableCell align="right"><strong>Email</strong></TableCell>
-                  <TableCell align="right"><strong>Age</strong></TableCell>
-                  <TableCell align="right"><strong>DOB</strong></TableCell>
-                  <TableCell align="right"><strong>Actions</strong></TableCell>
+                  <TableCell><strong>Email</strong></TableCell>
+                  <TableCell><strong>Age</strong></TableCell>
+                  <TableCell><strong>DOB</strong></TableCell>
+                  <TableCell><strong>Actions</strong></TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {userList.map((user, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {user.username}
-                    </TableCell>
-                    <TableCell align="right">{user.email}</TableCell>
-                    <TableCell align="right">{user.age}</TableCell>
-                    <TableCell align="right">{user.dob}</TableCell>
-                    <TableCell align="right">
+                  <TableRow key={index}>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.age}</TableCell>
+                    <TableCell>{user.dob}</TableCell>
+                    <TableCell>
                       <Button
                         variant="contained"
-                        color="primary"
                         size="small"
                         onClick={() => handleEdit(index)}
-                        style={{ marginRight: "10px" }}
+                        sx={{ marginRight: 1 }}
                       >
                         Edit
                       </Button>
                       <Button
                         variant="contained"
-                        color="error"
                         size="small"
+                        color="error"
                         onClick={() => handleDelete(index)}
                       >
                         Delete
@@ -127,65 +118,35 @@ export default function UserTable() {
                     </TableCell>
                   </TableRow>
                 ))}
+
               </TableBody>
             </Table>
           </TableContainer>
         )}
 
+        {/* Back button */}
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <Link to="/">
-            <button className="btn btn-success" style={{background:"green"}}>Back to Form</button>
+            <button className="btn btn-success" style={{ padding: "8px 20px" }}>
+              Back to Form
+            </button>
           </Link>
         </div>
       </Card>
 
-      {/* ✏️ Edit Dialog */}
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      {/* Edit Dialog */}
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Edit User Details</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            label="Username"
-            name="username"
-            value={editUser.username}
-            onChange={handleEditChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Email"
-            name="email"
-            value={editUser.email}
-            onChange={handleEditChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Age"
-            name="age"
-            type="number"
-            value={editUser.age}
-            onChange={handleEditChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="DOB"
-            name="dob"
-            type="date"
-            value={editUser.dob}
-            onChange={handleEditChange}
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <TextField label="Username" name="username" value={editUser.username} onChange={handleEditChange} fullWidth margin="dense" />
+          <TextField label="Email" name="email" value={editUser.email} onChange={handleEditChange} fullWidth margin="dense" />
+          <TextField label="Age" name="age" type="number" value={editUser.age} onChange={handleEditChange} fullWidth margin="dense" />
+          <TextField label="DOB" name="dob" type="date" value={editUser.dob} onChange={handleEditChange} fullWidth margin="dense" InputLabelProps={{ shrink: true }} />
         </DialogContent>
+
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={handleSaveEdit} variant="contained" color="primary">
-            Save
-          </Button>
+          <Button onClick={handleSaveEdit} variant="contained">Save</Button>
         </DialogActions>
       </Dialog>
     </Container>

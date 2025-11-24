@@ -14,7 +14,6 @@ const Home = () => {
   const [submitted, setSubmitted] = useState(null);
   const [userList, setUserList] = useState([]);
 
-  // 🔹 Load all stored data from localStorage when the page loads
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('UserDetailsList')) || [];
     setUserList(storedUsers);
@@ -35,96 +34,52 @@ const Home = () => {
     const updatedUsers = [...existingUsers, UserDetails];
     localStorage.setItem('UserDetailsList', JSON.stringify(updatedUsers));
 
-    setUserDetails({
-      username: '',
-      email: '',
-      age: '',
-      dob: '',
-    });
-
-    setUserList(updatedUsers); // Update list immediately
+    setUserDetails({ username: '', email: '', age: '', dob: '' });
+    setUserList(updatedUsers);
     setSubmitted(UserDetails);
 
     swal.fire({
       title: 'Success!',
       text: 'Your details have been submitted.',
       icon: 'success',
-      confirmButtonText: 'OK'
+      confirmButtonText: 'OK',
     });
   };
 
   return (
-    <div>
-      <Card style={{ marginTop: "60px", padding: "20px" }}>
+    <div className="container">
+      <Card className="form-card">
         <h1>Enter Your Details</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-box">
           <div className="field">
             <label>UserName</label>
-            <input
-              type="text"
-              name='username'
-              placeholder='User Name'
-              value={UserDetails.username}
-              onChange={handleChange}
-              required
-              pattern="[A-Za-z ]+"
-              title="Username must contain only letters"
-            />
+            <input type="text" name="username" placeholder="User Name" value={UserDetails.username} onChange={handleChange} required pattern="[A-Za-z ]+" />
           </div>
 
           <div className="field">
             <label>Email</label>
-            <input
-              type="email"
-              name='email'
-              placeholder='User Email id'
-              value={UserDetails.email}
-              onChange={handleChange}
-              required
-            />
+            <input type="email" name="email" placeholder="User Email" value={UserDetails.email} onChange={handleChange} required />
           </div>
 
           <div className="field">
             <label>Age</label>
-            <input
-              type="number"
-              name='age'
-              placeholder='User Age'
-              value={UserDetails.age}
-              onChange={handleChange}
-              required
-              min="1"
-              max="120"
-            />
+            <input type="number" name="age" placeholder="User Age" value={UserDetails.age} onChange={handleChange} required min="1" max="120" />
           </div>
 
           <div className="field">
             <label>DOB</label>
-            <input
-              type="date"
-              name='dob'
-              value={UserDetails.dob}
-              onChange={handleChange}
-              required
-            />
+            <input type="date" name="dob" value={UserDetails.dob} onChange={handleChange} required />
           </div>
 
-          <button type='submit'>Submit</button>
+          <button type="submit">Submit</button>
         </form>
 
-        {/* 🔹 Show All Stored Data in List */}
         {userList.length > 0 && (
-          <div className="all-data" style={{ marginTop: "30px" }}>
+          <div className="all-data">
             <h2>All Stored User Details</h2>
-            <ul style={{ listStyleType: "none", padding: 0 }}>
+            <ul>
               {userList.map((user, index) => (
-                <li key={index} style={{
-                  background: "#e3e5e7ff",
-                  margin: "10px 0",
-                  padding: "15px",
-                  borderRadius: "10px",
-                  boxShadow: "0px 2px 4px rgba(0,0,0,0.1)"
-                }}>
+                <li key={index} className="list-item">
                   <p><strong>Username:</strong> {user.username}</p>
                   <p><strong>Email:</strong> {user.email}</p>
                   <p><strong>Age:</strong> {user.age}</p>
